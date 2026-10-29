@@ -18,6 +18,8 @@
 package com.android.geto.data.datastore
 
 import androidx.datastore.core.DataStore
+import com.android.geto.data.datastore.mapper.asAppLaunchDetection
+import com.android.geto.data.datastore.mapper.asAppLaunchDetectionProto
 import com.android.geto.data.datastore.mapper.asSortLauncherAppsActivityInfo
 import com.android.geto.data.datastore.mapper.asSortLauncherAppsActivityInfoProto
 import com.android.geto.data.datastore.mapper.asSortOrderLauncherAppsActivityInfo
@@ -26,6 +28,7 @@ import com.android.geto.data.datastore.mapper.asTheme
 import com.android.geto.data.datastore.mapper.asThemeProto
 import com.android.geto.data.datastore.proto.UserPreferences
 import com.android.geto.data.datastore.proto.copy
+import com.android.geto.domain.model.AppLaunchDetection
 import com.android.geto.domain.model.SortLauncherAppsActivityInfo
 import com.android.geto.domain.model.SortOrderLauncherAppsActivityInfo
 import com.android.geto.domain.model.Theme
@@ -41,6 +44,7 @@ class UserPreferencesDataSource @Inject constructor(private val userPreferences:
             sortLauncherAppsActivityInfo = it.sortLauncherAppsActivityInfo.asSortLauncherAppsActivityInfo(),
             sortOrderLauncherAppsActivityInfo = it.sortOrderLauncherAppsActivityInfo.asSortOrderLauncherAppsActivityInfo(),
             showSystem = it.showSystem,
+            appLaunchDetection = it.appLaunchDetection.asAppLaunchDetection(),
         )
     }
 
@@ -80,6 +84,14 @@ class UserPreferencesDataSource @Inject constructor(private val userPreferences:
         userPreferences.updateData {
             it.copy {
                 this.showSystem = showSystem
+            }
+        }
+    }
+
+    suspend fun updateAppLaunchDetection(appLaunchDetection: AppLaunchDetection) {
+        userPreferences.updateData {
+            it.copy {
+                this.appLaunchDetection = appLaunchDetection.asAppLaunchDetectionProto()
             }
         }
     }

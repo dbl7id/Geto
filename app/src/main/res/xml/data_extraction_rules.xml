@@ -17,6 +17,16 @@
   -->
 <data-extraction-rules>
     <cloud-backup>
+        <exclude
+            domain="sharedpref"
+            path="launch_monitor.xml" />
+    </cloud-backup>
+    <device-transfer>
+        <exclude
+            domain="sharedpref"
+            path="launch_monitor.xml" />
+    </device-transfer>
+    <cloud-backup>
         <!-- TODO: Use <include> and <exclude> to control what is backed up.
         <include .../>
         <exclude .../>

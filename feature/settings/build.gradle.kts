@@ -27,5 +27,6 @@ android {
 
 dependencies {
     implementation(projects.domain.repository)
+    implementation(projects.launchMonitor)
     implementation(projects.service)
 }

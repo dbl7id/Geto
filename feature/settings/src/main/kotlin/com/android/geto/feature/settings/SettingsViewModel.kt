@@ -19,6 +19,7 @@ package com.android.geto.feature.settings
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.android.geto.domain.model.AppLaunchDetection
 import com.android.geto.domain.model.Theme
 import com.android.geto.domain.repository.UserDataRepository
 import com.android.geto.service.SettingsObserverService
@@ -54,6 +55,12 @@ class SettingsViewModel @Inject constructor(
     fun updateDynamicTheme(dynamicTheme: Boolean) {
         viewModelScope.launch {
             userDataRepository.updateDynamicTheme(dynamicTheme = dynamicTheme)
+        }
+    }
+
+    fun updateAppLaunchDetection(appLaunchDetection: AppLaunchDetection) {
+        viewModelScope.launch {
+            userDataRepository.updateAppLaunchDetection(appLaunchDetection = appLaunchDetection)
         }
     }
 }

@@ -75,6 +75,7 @@ dependencies {
     implementation(projects.framework.packageManager)
     implementation(projects.framework.secureSettings)
     implementation(projects.framework.shortcutManager)
+    implementation(projects.launchMonitor)
     implementation(projects.ui)
 
     implementation(libs.accompanist.permissions)

@@ -17,6 +17,7 @@
  */
 package com.android.geto.domain.repository
 
+import com.android.geto.domain.model.AppLaunchDetection
 import com.android.geto.domain.model.SortLauncherAppsActivityInfo
 import com.android.geto.domain.model.SortOrderLauncherAppsActivityInfo
 import com.android.geto.domain.model.Theme
@@ -36,4 +37,6 @@ interface UserDataRepository {
     suspend fun updateSortOrderLauncherAppsActivityInfo(sortOrderLauncherAppsActivityInfo: SortOrderLauncherAppsActivityInfo)
 
     suspend fun updateShowSystem(showSystem: Boolean)
+
+    suspend fun updateAppLaunchDetection(appLaunchDetection: AppLaunchDetection)
 }

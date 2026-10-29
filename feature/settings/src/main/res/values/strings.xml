@@ -28,4 +28,13 @@
     <string name="start_service">Start service</string>
     <string name="stop_service">Stop service</string>
     <string name="settings_observer_service">Settings Observer Service</string>
+    <string name="app_launch_detection">App launch detection</string>
+    <string name="app_launch_detection_off">Off</string>
+    <string name="app_launch_detection_off_description">Settings are applied by the app shortcut and reverted by hand</string>
+    <string name="app_launch_detection_accessibility">Accessibility service</string>
+    <string name="app_launch_detection_accessibility_description">Instant and reliable. Some banking apps refuse to run while an accessibility service is on</string>
+    <string name="app_launch_detection_usage_stats">Usage access</string>
+    <string name="app_launch_detection_usage_stats_description">Checks every second from a background service. Works with apps that object to accessibility services</string>
+    <string name="app_launch_detection_active">On</string>
+    <string name="app_launch_detection_needs_setup">Needs permission, tap to finish setup</string>
 </resources>

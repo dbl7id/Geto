@@ -17,9 +17,11 @@
  */
 package com.android.geto.data.datastore.mapper
 
+import com.android.geto.data.datastore.proto.AppLaunchDetectionProto
 import com.android.geto.data.datastore.proto.SortLauncherAppsActivityInfoProto
 import com.android.geto.data.datastore.proto.SortOrderLauncherAppsActivityInfoProto
 import com.android.geto.data.datastore.proto.ThemeProto
+import com.android.geto.domain.model.AppLaunchDetection
 import com.android.geto.domain.model.SortLauncherAppsActivityInfo
 import com.android.geto.domain.model.SortOrderLauncherAppsActivityInfo
 import com.android.geto.domain.model.Theme
@@ -108,5 +110,35 @@ internal fun Theme.asThemeProto(): ThemeProto = when (this) {
 
     Theme.DARK -> {
         ThemeProto.THEME_DARK
+    }
+}
+
+internal fun AppLaunchDetectionProto.asAppLaunchDetection(): AppLaunchDetection = when (this) {
+    AppLaunchDetectionProto.APP_LAUNCH_DETECTION_ACCESSIBILITY -> {
+        AppLaunchDetection.Accessibility
+    }
+
+    AppLaunchDetectionProto.APP_LAUNCH_DETECTION_USAGE_STATS -> {
+        AppLaunchDetection.UsageStats
+    }
+
+    AppLaunchDetectionProto.APP_LAUNCH_DETECTION_OFF,
+    AppLaunchDetectionProto.UNRECOGNIZED,
+    -> {
+        AppLaunchDetection.Off
+    }
+}
+
+internal fun AppLaunchDetection.asAppLaunchDetectionProto(): AppLaunchDetectionProto = when (this) {
+    AppLaunchDetection.Off -> {
+        AppLaunchDetectionProto.APP_LAUNCH_DETECTION_OFF
+    }
+
+    AppLaunchDetection.Accessibility -> {
+        AppLaunchDetectionProto.APP_LAUNCH_DETECTION_ACCESSIBILITY
+    }
+
+    AppLaunchDetection.UsageStats -> {
+        AppLaunchDetectionProto.APP_LAUNCH_DETECTION_USAGE_STATS
     }
 }

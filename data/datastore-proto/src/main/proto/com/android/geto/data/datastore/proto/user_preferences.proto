@@ -18,6 +18,7 @@
 
 syntax = "proto3";
 
+import "com/android/geto/data/datastore/proto/app_launch_detection.proto";
 import "com/android/geto/data/datastore/proto/theme.proto";
 import "com/android/geto/data/datastore/proto/sort_launcher_apps_activity_info.proto";
 import "com/android/geto/data/datastore/proto/sort_order_launcher_apps_activity_info.proto";
@@ -31,5 +32,6 @@ message UserPreferences {
   SortLauncherAppsActivityInfoProto sortLauncherAppsActivityInfo = 3;
   SortOrderLauncherAppsActivityInfoProto sortOrderLauncherAppsActivityInfo = 4;
   bool showSystem = 5;
+  AppLaunchDetectionProto appLaunchDetection = 6;
 }
 

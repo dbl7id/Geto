@@ -16,6 +16,9 @@
   ~
   -->
 <full-backup-content>
+    <exclude
+        domain="sharedpref"
+        path="launch_monitor.xml" />
     <!--
    <include domain="sharedpref" path="."/>
    <exclude domain="sharedpref" path="device.xml"/>

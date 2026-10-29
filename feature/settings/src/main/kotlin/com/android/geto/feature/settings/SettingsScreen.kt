@@ -47,11 +47,15 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.LifecycleResumeEffect
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.android.geto.designsystem.theme.supportsDynamicTheming
+import com.android.geto.domain.model.AppLaunchDetection
 import com.android.geto.domain.model.Theme
 import com.android.geto.domain.model.UserData
+import com.android.geto.feature.settings.dialog.AppLaunchDetectionDialog
 import com.android.geto.feature.settings.dialog.ThemeDialog
+import com.android.geto.launchmonitor.AppLaunchDetectionSetup
 import com.android.geto.service.SettingsObserverService
 
 @Composable
@@ -69,6 +73,7 @@ internal fun SettingsRoute(
         isServiceRunning = isServiceRunning,
         onUpdateTheme = viewModel::updateTheme,
         onUpdateDynamicTheme = viewModel::updateDynamicTheme,
+        onUpdateAppLaunchDetection = viewModel::updateAppLaunchDetection,
     )
 }
 
@@ -80,6 +85,7 @@ internal fun SettingsScreen(
     isServiceRunning: Boolean,
     onUpdateTheme: (Theme) -> Unit,
     onUpdateDynamicTheme: (Boolean) -> Unit,
+    onUpdateAppLaunchDetection: (AppLaunchDetection) -> Unit,
 ) {
     Box(
         modifier = modifier
@@ -97,6 +103,7 @@ internal fun SettingsScreen(
                     isServiceRunning = isServiceRunning,
                     onUpdateDynamicTheme = onUpdateDynamicTheme,
                     onUpdateTheme = onUpdateTheme,
+                    onUpdateAppLaunchDetection = onUpdateAppLaunchDetection,
                 )
             }
         }
@@ -110,6 +117,7 @@ private fun Success(
     isServiceRunning: Boolean,
     onUpdateDynamicTheme: (Boolean) -> Unit,
     onUpdateTheme: (Theme) -> Unit,
+    onUpdateAppLaunchDetection: (AppLaunchDetection) -> Unit,
 ) {
     val context = LocalContext.current
 
@@ -121,6 +129,21 @@ private fun Success(
                 userData.theme,
             ),
         )
+    }
+
+    var showAppLaunchDetectionDialog by remember { mutableStateOf(false) }
+
+    var selectedAppLaunchDetection by remember {
+        mutableIntStateOf(AppLaunchDetection.entries.indexOf(userData.appLaunchDetection))
+    }
+
+    // Permissions are granted on other screens, so look again whenever this one comes back.
+    var isDetectionReady by remember { mutableStateOf(true) }
+
+    LifecycleResumeEffect(userData.appLaunchDetection) {
+        isDetectionReady = AppLaunchDetectionSetup.isReady(context, userData.appLaunchDetection)
+
+        onPauseOrDispose { }
     }
 
     Column(modifier = modifier.fillMaxSize()) {
@@ -142,6 +165,35 @@ private fun Success(
         Spacer(modifier = Modifier.height(8.dp))
 
         SettingsColumn(
+            title = stringResource(R.string.app_launch_detection),
+            subtitle = when {
+                userData.appLaunchDetection == AppLaunchDetection.Off -> {
+                    stringResource(R.string.app_launch_detection_off)
+                }
+
+                isDetectionReady -> {
+                    "${userData.appLaunchDetection.getTitle()} · ${stringResource(R.string.app_launch_detection_active)}"
+                }
+
+                else -> stringResource(R.string.app_launch_detection_needs_setup)
+            },
+            onClick = {
+                if (userData.appLaunchDetection != AppLaunchDetection.Off && !isDetectionReady) {
+                    // Finish what the last choice started instead of making the user pick again.
+                    AppLaunchDetectionSetup.activate(context, userData.appLaunchDetection)
+                        ?.let { context.startActivity(it) }
+                } else {
+                    selectedAppLaunchDetection =
+                        AppLaunchDetection.entries.indexOf(userData.appLaunchDetection)
+
+                    showAppLaunchDetectionDialog = true
+                }
+            },
+        )
+
+        Spacer(modifier = Modifier.height(8.dp))
+
+        SettingsColumn(
             title = stringResource(R.string.settings_observer_service),
             subtitle = if (isServiceRunning) {
                 stringResource(R.string.stop_service)
@@ -156,6 +208,25 @@ private fun Success(
                 } else {
                     ContextCompat.startForegroundService(context, intent)
                 }
+            },
+        )
+    }
+
+    if (showAppLaunchDetectionDialog) {
+        AppLaunchDetectionDialog(
+            onDismissRequest = {
+                showAppLaunchDetectionDialog = false
+            },
+            selected = selectedAppLaunchDetection,
+            onSelect = { selectedAppLaunchDetection = it },
+            onChangeClick = {
+                val detection = AppLaunchDetection.entries[selectedAppLaunchDetection]
+
+                onUpdateAppLaunchDetection(detection)
+
+                AppLaunchDetectionSetup.activate(context, detection)?.let { context.startActivity(it) }
+
+                showAppLaunchDetectionDialog = false
             },
         )
     }
@@ -246,4 +317,18 @@ internal fun Theme.getTitle() = when (this) {
     Theme.FOLLOW_SYSTEM -> stringResource(R.string.follow_system)
     Theme.LIGHT -> stringResource(R.string.light)
     Theme.DARK -> stringResource(R.string.dark)
+}
+
+@Composable
+internal fun AppLaunchDetection.getTitle() = when (this) {
+    AppLaunchDetection.Off -> stringResource(R.string.app_launch_detection_off)
+    AppLaunchDetection.Accessibility -> stringResource(R.string.app_launch_detection_accessibility)
+    AppLaunchDetection.UsageStats -> stringResource(R.string.app_launch_detection_usage_stats)
+}
+
+@Composable
+internal fun AppLaunchDetection.getDescription() = when (this) {
+    AppLaunchDetection.Off -> stringResource(R.string.app_launch_detection_off_description)
+    AppLaunchDetection.Accessibility -> stringResource(R.string.app_launch_detection_accessibility_description)
+    AppLaunchDetection.UsageStats -> stringResource(R.string.app_launch_detection_usage_stats_description)
 }

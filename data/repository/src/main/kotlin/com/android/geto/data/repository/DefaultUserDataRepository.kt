@@ -18,6 +18,7 @@
 package com.android.geto.data.repository
 
 import com.android.geto.data.datastore.UserPreferencesDataSource
+import com.android.geto.domain.model.AppLaunchDetection
 import com.android.geto.domain.model.SortLauncherAppsActivityInfo
 import com.android.geto.domain.model.SortOrderLauncherAppsActivityInfo
 import com.android.geto.domain.model.Theme
@@ -51,5 +52,9 @@ class DefaultUserDataRepository @Inject constructor(
 
     override suspend fun updateShowSystem(showSystem: Boolean) {
         userPreferencesDataSource.updateShowSystem(showSystem = showSystem)
+    }
+
+    override suspend fun updateAppLaunchDetection(appLaunchDetection: AppLaunchDetection) {
+        userPreferencesDataSource.updateAppLaunchDetection(appLaunchDetection = appLaunchDetection)
     }
 }

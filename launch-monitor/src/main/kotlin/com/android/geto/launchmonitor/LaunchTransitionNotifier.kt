@@ -28,10 +28,10 @@ import com.android.geto.domain.framework.PackageManagerWrapper
 import com.android.geto.domain.model.AppSettingsResult
 import com.android.geto.domain.usecase.detection.AppLaunchMonitor
 import com.android.geto.framework.notificationmanager.AndroidNotificationManagerWrapper
+import com.android.geto.framework.notificationmanager.R as notificationManagerR
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 import javax.inject.Singleton
-import com.android.geto.framework.notificationmanager.R as notificationManagerR
 
 /**
  * Same notification the shortcut flow shows (same id, so the two never stack), now also posted
@@ -47,14 +47,20 @@ class LaunchTransitionNotifier @Inject constructor(
         val notificationId = transition.componentName.hashCode()
 
         when (transition.kind) {
-            AppLaunchMonitor.Transition.Kind.Reverted -> notificationManagerWrapper.cancel(notificationId)
+            AppLaunchMonitor.Transition.Kind.Reverted -> notificationManagerWrapper.cancel(
+                notificationId,
+            )
 
             AppLaunchMonitor.Transition.Kind.Applied -> {
                 val text = when (transition.result) {
                     AppSettingsResult.Success -> R.string.transition_applied
+
                     AppSettingsResult.Failure -> R.string.transition_failure
+
                     AppSettingsResult.NoPermission -> R.string.transition_no_permission
+
                     AppSettingsResult.InvalidValues -> R.string.transition_invalid_values
+
                     // Not reachable: the monitor only targets enabled settings.
                     AppSettingsResult.EmptyAppSettings,
                     AppSettingsResult.DisabledAppSettings,
@@ -84,8 +90,14 @@ class LaunchTransitionNotifier @Inject constructor(
     ): Notification {
         val revertIntent = Intent(context, RevertSettingsBroadcastReceiver::class.java).apply {
             action = AndroidNotificationManagerWrapper.ACTION_REVERT_SETTINGS
-            putExtra(AndroidNotificationManagerWrapper.NOTIFICATION_EXTRA_COMPONENT_NAME, componentName)
-            putExtra(AndroidNotificationManagerWrapper.NOTIFICATION_EXTRA_NOTIFICATION_ID, notificationId)
+            putExtra(
+                AndroidNotificationManagerWrapper.NOTIFICATION_EXTRA_COMPONENT_NAME,
+                componentName,
+            )
+            putExtra(
+                AndroidNotificationManagerWrapper.NOTIFICATION_EXTRA_NOTIFICATION_ID,
+                notificationId,
+            )
         }
 
         // The request code matters: PendingIntents are matched without their extras, so sharing
@@ -97,7 +109,10 @@ class LaunchTransitionNotifier @Inject constructor(
             PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE,
         )
 
-        return NotificationCompat.Builder(context, AndroidNotificationManagerWrapper.NOTIFICATION_CHANNEL_ID).apply {
+        return NotificationCompat.Builder(
+            context,
+            AndroidNotificationManagerWrapper.NOTIFICATION_CHANNEL_ID,
+        ).apply {
             setSmallIcon(notificationManagerR.drawable.baseline_settings_24)
 
             icon?.let { setLargeIcon(Icon.createWithData(it, 0, it.size)) }

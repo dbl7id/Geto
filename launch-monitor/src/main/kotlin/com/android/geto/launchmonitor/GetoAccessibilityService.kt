@@ -24,6 +24,7 @@ import com.android.geto.domain.model.AppLaunchDetection
 import com.android.geto.domain.repository.UserDataRepository
 import com.android.geto.domain.usecase.detection.AppLaunchMonitor
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
@@ -34,7 +35,6 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
 /**
  * Event driven app launch detection. The system keeps this bound for as long as it is enabled,

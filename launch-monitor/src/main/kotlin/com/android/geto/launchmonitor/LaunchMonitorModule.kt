@@ -30,10 +30,14 @@ import dagger.hilt.components.SingletonComponent
 @InstallIn(SingletonComponent::class)
 internal interface LaunchMonitorModule {
     @Binds
-    fun accessibilityForegroundAppDetector(impl: DefaultAccessibilityForegroundAppDetector): AccessibilityForegroundAppDetector
+    fun accessibilityForegroundAppDetector(
+        impl: DefaultAccessibilityForegroundAppDetector,
+    ): AccessibilityForegroundAppDetector
 
     @Binds
-    fun usageStatsForegroundAppDetector(impl: DefaultUsageStatsForegroundAppDetector): UsageStatsForegroundAppDetector
+    fun usageStatsForegroundAppDetector(
+        impl: DefaultUsageStatsForegroundAppDetector,
+    ): UsageStatsForegroundAppDetector
 
     @Binds
     fun appliedSettingsStore(impl: SharedPreferencesAppliedSettingsStore): AppliedSettingsStore

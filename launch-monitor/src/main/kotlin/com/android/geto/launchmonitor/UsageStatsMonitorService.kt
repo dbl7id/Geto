@@ -32,7 +32,9 @@ import com.android.geto.domain.model.AppLaunchDetection
 import com.android.geto.domain.repository.UserDataRepository
 import com.android.geto.domain.usecase.detection.AppLaunchMonitor
 import com.android.geto.framework.notificationmanager.AndroidNotificationManagerWrapper
+import com.android.geto.framework.notificationmanager.R as notificationManagerR
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
@@ -44,8 +46,6 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
-import javax.inject.Inject
-import com.android.geto.framework.notificationmanager.R as notificationManagerR
 
 private const val NOTIFICATION_ID = 2
 private const val ACTION_STOP = "com.android.geto.launchmonitor.action.STOP"
@@ -112,7 +112,10 @@ class UsageStatsMonitorService : Service() {
                                 AppLaunchMonitor.Transition.Kind.Reverted -> idleText()
                             }
 
-                            notificationManagerWrapper.notify(NOTIFICATION_ID, getNotification(text))
+                            notificationManagerWrapper.notify(
+                                NOTIFICATION_ID,
+                                getNotification(text),
+                            )
                         }
                     } else {
                         // The setting is written just before the service is started, so the first
@@ -154,11 +157,20 @@ class UsageStatsMonitorService : Service() {
     override fun onBind(intent: Intent?): IBinder? = null
 
     private fun idleText(): String = getString(
-        if (AppLaunchDetectionSetup.hasUsageAccess(this)) R.string.monitor_waiting else R.string.monitor_needs_usage_access,
+        if (AppLaunchDetectionSetup.hasUsageAccess(
+                this,
+            )
+        ) {
+            R.string.monitor_waiting
+        } else {
+            R.string.monitor_needs_usage_access
+        },
     )
 
     @SuppressLint("InlinedApi")
-    private fun foregroundServiceType(): Int = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
+    private fun foregroundServiceType(): Int = if (Build.VERSION.SDK_INT >=
+        Build.VERSION_CODES.UPSIDE_DOWN_CAKE
+    ) {
         ServiceInfo.FOREGROUND_SERVICE_TYPE_SPECIAL_USE
     } else {
         ServiceInfo.FOREGROUND_SERVICE_TYPE_MANIFEST
@@ -172,7 +184,10 @@ class UsageStatsMonitorService : Service() {
             PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE,
         )
 
-        return NotificationCompat.Builder(this, AndroidNotificationManagerWrapper.NOTIFICATION_CHANNEL_ID)
+        return NotificationCompat.Builder(
+            this,
+            AndroidNotificationManagerWrapper.NOTIFICATION_CHANNEL_ID,
+        )
             .setSmallIcon(notificationManagerR.drawable.baseline_settings_24)
             .setContentTitle(getString(R.string.monitor_notification_title))
             .setContentText(text)

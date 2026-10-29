@@ -56,8 +56,16 @@ class AppLaunchMonitorTest {
 
     private val monitor = AppLaunchMonitor(
         appSettingsRepository = FakeRepository(settings),
-        applyAppSettingsUseCase = ApplyAppSettingsUseCase(FakeRepository(settings), secureSettings, Dispatchers.Default),
-        revertAppSettingsUseCase = RevertAppSettingsUseCase(FakeRepository(settings), secureSettings, Dispatchers.Default),
+        applyAppSettingsUseCase = ApplyAppSettingsUseCase(
+            FakeRepository(settings),
+            secureSettings,
+            Dispatchers.Default,
+        ),
+        revertAppSettingsUseCase = RevertAppSettingsUseCase(
+            FakeRepository(settings),
+            secureSettings,
+            Dispatchers.Default,
+        ),
         appliedSettingsStore = store,
     )
 
@@ -101,7 +109,13 @@ class AppLaunchMonitorTest {
 
         assertEquals("0", secureSettings.values["dev"])
         assertEquals(
-            listOf(AppLaunchMonitor.Transition(bank, AppLaunchMonitor.Transition.Kind.Applied, AppSettingsResult.Success)),
+            listOf(
+                AppLaunchMonitor.Transition(
+                    bank,
+                    AppLaunchMonitor.Transition.Kind.Applied,
+                    AppSettingsResult.Success,
+                ),
+            ),
             transitions,
         )
 
@@ -203,7 +217,13 @@ class AppLaunchMonitorTest {
     @Test
     fun disabledSettingsAreNotTargets() = runBlocking {
         settings.value = listOf(
-            setting(componentName = bank, key = "dev", onLaunch = "0", onRevert = "1", enabled = false),
+            setting(
+                componentName = bank,
+                key = "dev",
+                onLaunch = "0",
+                onRevert = "1",
+                enabled = false,
+            ),
         )
 
         val job = runMonitor(this)
@@ -227,7 +247,8 @@ class AppLaunchMonitorTest {
 
         assertTrue(secureSettings.writes.isEmpty())
 
-        settings.value = listOf(setting(componentName = bank, key = "dev", onLaunch = "0", onRevert = "1"))
+        settings.value =
+            listOf(setting(componentName = bank, key = "dev", onLaunch = "0", onRevert = "1"))
         settle()
 
         assertEquals("0", secureSettings.values["dev"])
@@ -279,25 +300,34 @@ class AppLaunchMonitorTest {
         val writes = mutableListOf<Pair<String, String>>()
         var throwSecurityException = false
 
-        override suspend fun canWriteSecureSettings(settingType: SettingType, key: String, value: String): Boolean {
+        override suspend fun canWriteSecureSettings(
+            settingType: SettingType,
+            key: String,
+            value: String,
+        ): Boolean {
             if (throwSecurityException) throw SecurityException()
             values[key] = value
             writes += key to value
             return true
         }
 
-        override suspend fun getSecureSettings(settingType: SettingType): List<SecureSetting> = emptyList()
+        override suspend fun getSecureSettings(settingType: SettingType): List<SecureSetting> =
+            emptyList()
     }
 
-    private class FakeRepository(private val settings: MutableStateFlow<List<AppSetting>>) : AppSettingsRepository {
+    private class FakeRepository(private val settings: MutableStateFlow<List<AppSetting>>) :
+        AppSettingsRepository {
         override val appSettingsFlow: Flow<List<AppSetting>> = settings
         override suspend fun upsertAppSetting(appSetting: AppSetting) = Unit
         override suspend fun deleteAppSetting(appSetting: AppSetting) = Unit
-        override fun getAppSettingsFlowByComponentName(componentName: String): Flow<List<AppSetting>> =
+        override fun getAppSettingsFlowByComponentName(
+            componentName: String,
+        ): Flow<List<AppSetting>> =
             settings.map { list -> list.filter { it.componentName == componentName } }
 
-        override suspend fun getAppSettingsByComponentName(componentName: String): List<AppSetting> =
-            settings.first().filter { it.componentName == componentName }
+        override suspend fun getAppSettingsByComponentName(
+            componentName: String,
+        ): List<AppSetting> = settings.first().filter { it.componentName == componentName }
     }
 
     private companion object {

@@ -36,7 +36,9 @@ class ResumedActivityTracker {
         get() = resumedClassNamesByPackage.keys.toSet()
 
     fun onActivityResumed(packageName: String, className: String?) {
-        resumedClassNamesByPackage.getOrPut(packageName) { LinkedHashSet() }.add(className.orEmpty())
+        resumedClassNamesByPackage.getOrPut(packageName) {
+            LinkedHashSet()
+        }.add(className.orEmpty())
     }
 
     /** Covers paused, stopped and destroyed: all mean the activity is not the one in front. */

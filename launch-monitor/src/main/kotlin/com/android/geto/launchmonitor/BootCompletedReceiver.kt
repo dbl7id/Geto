@@ -25,10 +25,10 @@ import com.android.geto.common.ApplicationScope
 import com.android.geto.domain.model.AppLaunchDetection
 import com.android.geto.domain.repository.UserDataRepository
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
 /**
  * Brings the foreground service back after a reboot or an app update. The accessibility service
@@ -44,13 +44,19 @@ class BootCompletedReceiver : BroadcastReceiver() {
     lateinit var userDataRepository: UserDataRepository
 
     override fun onReceive(context: Context, intent: Intent) {
-        if (intent.action != Intent.ACTION_BOOT_COMPLETED && intent.action != Intent.ACTION_MY_PACKAGE_REPLACED) return
+        if (intent.action != Intent.ACTION_BOOT_COMPLETED &&
+            intent.action != Intent.ACTION_MY_PACKAGE_REPLACED
+        ) {
+            return
+        }
 
         val pendingResult = goAsync()
 
         appScope.launch {
             try {
-                if (userDataRepository.userData.first().appLaunchDetection == AppLaunchDetection.UsageStats) {
+                if (userDataRepository.userData.first().appLaunchDetection ==
+                    AppLaunchDetection.UsageStats
+                ) {
                     ContextCompat.startForegroundService(
                         context,
                         Intent(context, UsageStatsMonitorService::class.java),

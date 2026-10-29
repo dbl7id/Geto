@@ -172,7 +172,9 @@ private fun Success(
                 }
 
                 isDetectionReady -> {
-                    "${userData.appLaunchDetection.getTitle()} · ${stringResource(R.string.app_launch_detection_active)}"
+                    "${userData.appLaunchDetection.getTitle()} · ${stringResource(
+                        R.string.app_launch_detection_active,
+                    )}"
                 }
 
                 else -> stringResource(R.string.app_launch_detection_needs_setup)
@@ -224,7 +226,9 @@ private fun Success(
 
                 onUpdateAppLaunchDetection(detection)
 
-                AppLaunchDetectionSetup.activate(context, detection)?.let { context.startActivity(it) }
+                AppLaunchDetectionSetup.activate(context, detection)?.let {
+                    context.startActivity(it)
+                }
 
                 showAppLaunchDetectionDialog = false
             },
@@ -329,6 +333,12 @@ internal fun AppLaunchDetection.getTitle() = when (this) {
 @Composable
 internal fun AppLaunchDetection.getDescription() = when (this) {
     AppLaunchDetection.Off -> stringResource(R.string.app_launch_detection_off_description)
-    AppLaunchDetection.Accessibility -> stringResource(R.string.app_launch_detection_accessibility_description)
-    AppLaunchDetection.UsageStats -> stringResource(R.string.app_launch_detection_usage_stats_description)
+
+    AppLaunchDetection.Accessibility -> stringResource(
+        R.string.app_launch_detection_accessibility_description,
+    )
+
+    AppLaunchDetection.UsageStats -> stringResource(
+        R.string.app_launch_detection_usage_stats_description,
+    )
 }

@@ -32,9 +32,13 @@ interface UserDataRepository {
 
     suspend fun updateDynamicTheme(dynamicTheme: Boolean)
 
-    suspend fun updateSortLauncherAppsActivityInfo(sortLauncherAppsActivityInfo: SortLauncherAppsActivityInfo)
+    suspend fun updateSortLauncherAppsActivityInfo(
+        sortLauncherAppsActivityInfo: SortLauncherAppsActivityInfo,
+    )
 
-    suspend fun updateSortOrderLauncherAppsActivityInfo(sortOrderLauncherAppsActivityInfo: SortOrderLauncherAppsActivityInfo)
+    suspend fun updateSortOrderLauncherAppsActivityInfo(
+        sortOrderLauncherAppsActivityInfo: SortOrderLauncherAppsActivityInfo,
+    )
 
     suspend fun updateShowSystem(showSystem: Boolean)
 

@@ -15,11 +15,6 @@
   ~   limitations under the License.
   ~
   -->
-<!--
-  Deliberately minimal. Geto only needs to know which app owns the window that just came to the
-  front, which is on every TYPE_WINDOW_STATE_CHANGED event. It does not ask to read window content,
-  perform gestures, or observe touch or key input, and it says it is not an accessibility tool.
--->
 <accessibility-service xmlns:android="http://schemas.android.com/apk/res/android"
     android:accessibilityEventTypes="typeWindowStateChanged"
     android:accessibilityFeedbackType="feedbackGeneric"

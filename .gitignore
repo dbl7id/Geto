@@ -18,3 +18,4 @@ local.properties
 
 # Output of IDE/editor background builds (e.g. the VS Code Java extension)
 bin/
+bin/

@@ -37,11 +37,28 @@ android {
         }
     }
 
+    // Only set up when the environment provides a keystore (see .github/workflows/Release-APK.yml).
+    // Without it the release build stays unsigned, exactly as before.
+    val releaseKeystorePath: String? = System.getenv("SIGNING_KEYSTORE_PATH")
+
+    signingConfigs {
+        if (releaseKeystorePath != null) {
+            create("release") {
+                storeFile = file(releaseKeystorePath)
+                storePassword = System.getenv("SIGNING_KEY_STORE_PASSWORD")
+                keyAlias = System.getenv("SIGNING_KEY_ALIAS")
+                keyPassword = System.getenv("SIGNING_KEY_PASSWORD")
+            }
+        }
+    }
+
     buildTypes {
         debug {
             applicationIdSuffix = ".debug"
         }
         release {
+            signingConfig = signingConfigs.findByName("release")
+
             isMinifyEnabled = true
             isShrinkResources = true
 

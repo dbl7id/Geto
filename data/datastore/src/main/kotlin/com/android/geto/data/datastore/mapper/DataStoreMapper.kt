@@ -43,65 +43,61 @@ internal fun ThemeProto.asTheme(): Theme = when (this) {
     }
 }
 
-internal fun SortLauncherAppsActivityInfoProto.asSortLauncherAppsActivityInfo(): SortLauncherAppsActivityInfo =
-    when (this) {
-        SortLauncherAppsActivityInfoProto.SortName -> {
-            SortLauncherAppsActivityInfo.Name
-        }
-
-        SortLauncherAppsActivityInfoProto.SortUpdateTime -> {
-            SortLauncherAppsActivityInfo.UpdateTime
-        }
-
-        SortLauncherAppsActivityInfoProto.SortInstallTime -> {
-            SortLauncherAppsActivityInfo.InstallTime
-        }
-
-        SortLauncherAppsActivityInfoProto.UNRECOGNIZED -> {
-            SortLauncherAppsActivityInfo.Name
-        }
+internal fun SortLauncherAppsActivityInfoProto.asSortLauncherAppsActivityInfo(): SortLauncherAppsActivityInfo = when (this) {
+    SortLauncherAppsActivityInfoProto.SortName -> {
+        SortLauncherAppsActivityInfo.Name
     }
 
-internal fun SortOrderLauncherAppsActivityInfoProto.asSortOrderLauncherAppsActivityInfo(): SortOrderLauncherAppsActivityInfo =
-    when (this) {
-        SortOrderLauncherAppsActivityInfoProto.SortOrderAscending -> {
-            SortOrderLauncherAppsActivityInfo.Ascending
-        }
-
-        SortOrderLauncherAppsActivityInfoProto.SortOrderDescending -> {
-            SortOrderLauncherAppsActivityInfo.Descending
-        }
-
-        SortOrderLauncherAppsActivityInfoProto.UNRECOGNIZED -> {
-            SortOrderLauncherAppsActivityInfo.Ascending
-        }
+    SortLauncherAppsActivityInfoProto.SortUpdateTime -> {
+        SortLauncherAppsActivityInfo.UpdateTime
     }
 
-internal fun SortLauncherAppsActivityInfo.asSortLauncherAppsActivityInfoProto(): SortLauncherAppsActivityInfoProto =
-    when (this) {
-        SortLauncherAppsActivityInfo.Name -> {
-            SortLauncherAppsActivityInfoProto.SortName
-        }
-
-        SortLauncherAppsActivityInfo.UpdateTime -> {
-            SortLauncherAppsActivityInfoProto.SortUpdateTime
-        }
-
-        SortLauncherAppsActivityInfo.InstallTime -> {
-            SortLauncherAppsActivityInfoProto.SortInstallTime
-        }
+    SortLauncherAppsActivityInfoProto.SortInstallTime -> {
+        SortLauncherAppsActivityInfo.InstallTime
     }
 
-internal fun SortOrderLauncherAppsActivityInfo.asSortOrderLauncherAppsActivityInfoProto(): SortOrderLauncherAppsActivityInfoProto =
-    when (this) {
-        SortOrderLauncherAppsActivityInfo.Ascending -> {
-            SortOrderLauncherAppsActivityInfoProto.SortOrderAscending
-        }
-
-        SortOrderLauncherAppsActivityInfo.Descending -> {
-            SortOrderLauncherAppsActivityInfoProto.SortOrderDescending
-        }
+    SortLauncherAppsActivityInfoProto.UNRECOGNIZED -> {
+        SortLauncherAppsActivityInfo.Name
     }
+}
+
+internal fun SortOrderLauncherAppsActivityInfoProto.asSortOrderLauncherAppsActivityInfo(): SortOrderLauncherAppsActivityInfo = when (this) {
+    SortOrderLauncherAppsActivityInfoProto.SortOrderAscending -> {
+        SortOrderLauncherAppsActivityInfo.Ascending
+    }
+
+    SortOrderLauncherAppsActivityInfoProto.SortOrderDescending -> {
+        SortOrderLauncherAppsActivityInfo.Descending
+    }
+
+    SortOrderLauncherAppsActivityInfoProto.UNRECOGNIZED -> {
+        SortOrderLauncherAppsActivityInfo.Ascending
+    }
+}
+
+internal fun SortLauncherAppsActivityInfo.asSortLauncherAppsActivityInfoProto(): SortLauncherAppsActivityInfoProto = when (this) {
+    SortLauncherAppsActivityInfo.Name -> {
+        SortLauncherAppsActivityInfoProto.SortName
+    }
+
+    SortLauncherAppsActivityInfo.UpdateTime -> {
+        SortLauncherAppsActivityInfoProto.SortUpdateTime
+    }
+
+    SortLauncherAppsActivityInfo.InstallTime -> {
+        SortLauncherAppsActivityInfoProto.SortInstallTime
+    }
+}
+
+internal fun SortOrderLauncherAppsActivityInfo.asSortOrderLauncherAppsActivityInfoProto(): SortOrderLauncherAppsActivityInfoProto = when (this) {
+    SortOrderLauncherAppsActivityInfo.Ascending -> {
+        SortOrderLauncherAppsActivityInfoProto.SortOrderAscending
+    }
+
+    SortOrderLauncherAppsActivityInfo.Descending -> {
+        SortOrderLauncherAppsActivityInfoProto.SortOrderDescending
+    }
+}
 
 internal fun Theme.asThemeProto(): ThemeProto = when (this) {
     Theme.FOLLOW_SYSTEM -> {

@@ -28,10 +28,10 @@ import com.android.geto.domain.framework.PackageManagerWrapper
 import com.android.geto.domain.model.AppSettingsResult
 import com.android.geto.domain.usecase.detection.AppLaunchMonitor
 import com.android.geto.framework.notificationmanager.AndroidNotificationManagerWrapper
-import com.android.geto.framework.notificationmanager.R as notificationManagerR
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 import javax.inject.Singleton
+import com.android.geto.framework.notificationmanager.R as notificationManagerR
 
 /**
  * Same notification the shortcut flow shows (same id, so the two never stack), now also posted

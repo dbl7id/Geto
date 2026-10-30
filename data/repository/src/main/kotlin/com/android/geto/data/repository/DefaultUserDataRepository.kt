@@ -24,8 +24,8 @@ import com.android.geto.domain.model.SortOrderLauncherAppsActivityInfo
 import com.android.geto.domain.model.Theme
 import com.android.geto.domain.model.UserData
 import com.android.geto.domain.repository.UserDataRepository
-import javax.inject.Inject
 import kotlinx.coroutines.flow.Flow
+import javax.inject.Inject
 
 class DefaultUserDataRepository @Inject constructor(
     private val userPreferencesDataSource: UserPreferencesDataSource,
@@ -40,17 +40,11 @@ class DefaultUserDataRepository @Inject constructor(
         userPreferencesDataSource.updateDynamicColor(dynamicTheme = dynamicTheme)
     }
 
-    override suspend fun updateSortLauncherAppsActivityInfo(
-        sortLauncherAppsActivityInfo: SortLauncherAppsActivityInfo,
-    ) {
-        userPreferencesDataSource.updateSortLauncherAppsActivityInfo(
-            sortLauncherAppsActivityInfo = sortLauncherAppsActivityInfo,
-        )
+    override suspend fun updateSortLauncherAppsActivityInfo(sortLauncherAppsActivityInfo: SortLauncherAppsActivityInfo) {
+        userPreferencesDataSource.updateSortLauncherAppsActivityInfo(sortLauncherAppsActivityInfo = sortLauncherAppsActivityInfo)
     }
 
-    override suspend fun updateSortOrderLauncherAppsActivityInfo(
-        sortOrderLauncherAppsActivityInfo: SortOrderLauncherAppsActivityInfo,
-    ) {
+    override suspend fun updateSortOrderLauncherAppsActivityInfo(sortOrderLauncherAppsActivityInfo: SortOrderLauncherAppsActivityInfo) {
         userPreferencesDataSource.updateSortOrderLauncherAppsActivityInfo(
             sortOrderLauncherAppsActivityInfo = sortOrderLauncherAppsActivityInfo,
         )

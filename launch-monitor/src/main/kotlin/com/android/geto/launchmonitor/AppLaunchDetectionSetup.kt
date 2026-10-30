@@ -160,22 +160,19 @@ object AppLaunchDetectionSetup {
     fun accessibilitySettingsIntent(): Intent = Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS)
         .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
 
-    fun usageAccessSettingsIntent(context: Context): Intent =
-        Intent(Settings.ACTION_USAGE_ACCESS_SETTINGS).apply {
-            // Jumping straight to Geto's own entry is only supported from Android 10.
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-                data = Uri.parse("package:${context.packageName}")
-            }
-
-            addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+    fun usageAccessSettingsIntent(context: Context): Intent = Intent(Settings.ACTION_USAGE_ACCESS_SETTINGS).apply {
+        // Jumping straight to Geto's own entry is only supported from Android 10.
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            data = Uri.parse("package:${context.packageName}")
         }
 
-    private fun serviceComponent(context: Context) =
-        ComponentName(context, GetoAccessibilityService::class.java)
+        addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+    }
 
-    private fun enabledAccessibilityServices(context: Context): List<ComponentName> =
-        Settings.Secure.getString(
-            context.contentResolver,
-            Settings.Secure.ENABLED_ACCESSIBILITY_SERVICES,
-        ).orEmpty().split(':').mapNotNull { ComponentName.unflattenFromString(it) }
+    private fun serviceComponent(context: Context) = ComponentName(context, GetoAccessibilityService::class.java)
+
+    private fun enabledAccessibilityServices(context: Context): List<ComponentName> = Settings.Secure.getString(
+        context.contentResolver,
+        Settings.Secure.ENABLED_ACCESSIBILITY_SERVICES,
+    ).orEmpty().split(':').mapNotNull { ComponentName.unflattenFromString(it) }
 }

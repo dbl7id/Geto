@@ -23,7 +23,6 @@ import com.android.geto.domain.model.AppSettingsResult
 import com.android.geto.domain.repository.AppSettingsRepository
 import com.android.geto.domain.usecase.ApplyAppSettingsUseCase
 import com.android.geto.domain.usecase.RevertAppSettingsUseCase
-import javax.inject.Inject
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.NonCancellable
@@ -40,6 +39,7 @@ import kotlinx.coroutines.flow.merge
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.transformLatest
 import kotlinx.coroutines.withContext
+import javax.inject.Inject
 
 /**
  * Applies an app's settings when it comes to the foreground and reverts them once it has been
@@ -195,12 +195,11 @@ class AppLaunchMonitor @Inject constructor(
 
     /** `false` is held back for [delayMillis] and dropped if something newer arrives meanwhile. */
     @OptIn(ExperimentalCoroutinesApi::class)
-    private fun Flow<Boolean>.holdFalseFor(delayMillis: Long): Flow<Boolean> =
-        transformLatest { value ->
-            if (!value) delay(delayMillis)
+    private fun Flow<Boolean>.holdFalseFor(delayMillis: Long): Flow<Boolean> = transformLatest { value ->
+        if (!value) delay(delayMillis)
 
-            emit(value)
-        }.distinctUntilChanged()
+        emit(value)
+    }.distinctUntilChanged()
 
     /** Component names are `ComponentName.flattenToString()`: `package/class`. */
     private fun String.packageName() = substringBefore('/')

@@ -26,14 +26,14 @@ import com.android.geto.domain.common.dispatcher.GetoDispatchers
 import com.android.geto.domain.framework.UsageStatsForegroundAppDetector
 import com.android.geto.domain.usecase.detection.ResumedActivityTracker
 import dagger.hilt.android.qualifiers.ApplicationContext
-import javax.inject.Inject
-import javax.inject.Singleton
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
+import javax.inject.Inject
+import javax.inject.Singleton
 
 /**
  * Polls `UsageStatsManager.queryEvents` and feeds the events through a [ResumedActivityTracker].

@@ -18,11 +18,11 @@
 package com.android.geto.launchmonitor
 
 import com.android.geto.domain.framework.AccessibilityForegroundAppDetector
-import javax.inject.Inject
-import javax.inject.Singleton
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import javax.inject.Inject
+import javax.inject.Singleton
 
 /**
  * The accessibility service is created and destroyed by the system, so it cannot own the
@@ -32,8 +32,7 @@ import kotlinx.coroutines.flow.asStateFlow
  * recent user-facing window. That is enough to answer "is app X in front?".
  */
 @Singleton
-class DefaultAccessibilityForegroundAppDetector @Inject constructor() :
-    AccessibilityForegroundAppDetector {
+class DefaultAccessibilityForegroundAppDetector @Inject constructor() : AccessibilityForegroundAppDetector {
     private val _foregroundPackages = MutableStateFlow<Set<String>>(emptySet())
 
     override val foregroundPackages: Flow<Set<String>> = _foregroundPackages.asStateFlow()

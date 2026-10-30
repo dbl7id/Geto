@@ -24,15 +24,16 @@ import com.android.geto.domain.model.Theme
 import com.android.geto.domain.repository.UserDataRepository
 import com.android.geto.service.SettingsObserverService
 import dagger.hilt.android.lifecycle.HiltViewModel
-import javax.inject.Inject
 import kotlinx.coroutines.flow.SharingStarted.Companion.WhileSubscribed
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 @HiltViewModel
-class SettingsViewModel @Inject constructor(private val userDataRepository: UserDataRepository) :
-    ViewModel() {
+class SettingsViewModel @Inject constructor(
+    private val userDataRepository: UserDataRepository,
+) : ViewModel() {
     val settingsUiState = userDataRepository.userData.map(SettingsUiState::Success).stateIn(
         scope = viewModelScope,
         started = WhileSubscribed(5_000),

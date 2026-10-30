@@ -75,9 +75,8 @@ internal class ForegroundWindowClassifier(context: Context) {
         false
     }
 
-    private fun isUserFacing(packageName: String): Boolean =
-        packageManager.getLaunchIntentForPackage(packageName) != null ||
-            packageName in loadHomePackages()
+    private fun isUserFacing(packageName: String): Boolean = packageManager.getLaunchIntentForPackage(packageName) != null ||
+        packageName in loadHomePackages()
 
     private fun loadHomePackages(): Set<String> {
         val now = SystemClock.elapsedRealtime()

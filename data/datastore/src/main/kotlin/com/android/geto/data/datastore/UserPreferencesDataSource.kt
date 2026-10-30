@@ -33,12 +33,10 @@ import com.android.geto.domain.model.SortLauncherAppsActivityInfo
 import com.android.geto.domain.model.SortOrderLauncherAppsActivityInfo
 import com.android.geto.domain.model.Theme
 import com.android.geto.domain.model.UserData
-import javax.inject.Inject
 import kotlinx.coroutines.flow.map
+import javax.inject.Inject
 
-class UserPreferencesDataSource @Inject constructor(
-    private val userPreferences: DataStore<UserPreferences>,
-) {
+class UserPreferencesDataSource @Inject constructor(private val userPreferences: DataStore<UserPreferences>) {
     val userData = userPreferences.data.map {
         UserData(
             theme = it.theme.asTheme(),
@@ -64,9 +62,7 @@ class UserPreferencesDataSource @Inject constructor(
         }
     }
 
-    suspend fun updateSortLauncherAppsActivityInfo(
-        sortLauncherAppsActivityInfo: SortLauncherAppsActivityInfo,
-    ) {
+    suspend fun updateSortLauncherAppsActivityInfo(sortLauncherAppsActivityInfo: SortLauncherAppsActivityInfo) {
         userPreferences.updateData {
             it.copy {
                 this.sortLauncherAppsActivityInfo =
@@ -75,9 +71,7 @@ class UserPreferencesDataSource @Inject constructor(
         }
     }
 
-    suspend fun updateSortOrderLauncherAppsActivityInfo(
-        sortOrderLauncherAppsActivityInfo: SortOrderLauncherAppsActivityInfo,
-    ) {
+    suspend fun updateSortOrderLauncherAppsActivityInfo(sortOrderLauncherAppsActivityInfo: SortOrderLauncherAppsActivityInfo) {
         userPreferences.updateData {
             it.copy {
                 this.sortOrderLauncherAppsActivityInfo =

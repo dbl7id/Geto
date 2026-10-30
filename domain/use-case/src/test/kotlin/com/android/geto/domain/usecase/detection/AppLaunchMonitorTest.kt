@@ -311,19 +311,16 @@ class AppLaunchMonitorTest {
             return true
         }
 
-        override suspend fun getSecureSettings(settingType: SettingType): List<SecureSetting> =
-            emptyList()
+        override suspend fun getSecureSettings(settingType: SettingType): List<SecureSetting> = emptyList()
     }
 
-    private class FakeRepository(private val settings: MutableStateFlow<List<AppSetting>>) :
-        AppSettingsRepository {
+    private class FakeRepository(private val settings: MutableStateFlow<List<AppSetting>>) : AppSettingsRepository {
         override val appSettingsFlow: Flow<List<AppSetting>> = settings
         override suspend fun upsertAppSetting(appSetting: AppSetting) = Unit
         override suspend fun deleteAppSetting(appSetting: AppSetting) = Unit
         override fun getAppSettingsFlowByComponentName(
             componentName: String,
-        ): Flow<List<AppSetting>> =
-            settings.map { list -> list.filter { it.componentName == componentName } }
+        ): Flow<List<AppSetting>> = settings.map { list -> list.filter { it.componentName == componentName } }
 
         override suspend fun getAppSettingsByComponentName(
             componentName: String,

@@ -34,9 +34,9 @@ class GetoApplication : Application() {
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             notificationManagerWrapper.createNotificationChannel(
-                channelId = AndroidNotificationManagerWrapper.NOTIFICATION_CHANNEL_ID,
-                name = getString(R.string.app_name),
-                importance = NotificationManager.IMPORTANCE_DEFAULT,
+                channelId = AndroidNotificationManagerWrapper.MONITOR_NOTIFICATION_CHANNEL_ID,
+                name = getString(R.string.monitor_notification_channel_name),
+                importance = NotificationManager.IMPORTANCE_MIN,
             )
         }
     }

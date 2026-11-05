@@ -297,6 +297,11 @@ class UsageStatsMonitorService : Service() {
             setOngoing(true)
             setSilent(true)
 
+            // Marks this as a "running in the background" notification, the same way other
+            // always-on apps such as KDE Connect and Syncthing do.
+            setCategory(NotificationCompat.CATEGORY_SERVICE)
+            setPriority(NotificationCompat.PRIORITY_MIN)
+
             addAction(
                 notificationManagerR.drawable.baseline_settings_24,
                 getString(R.string.stop),

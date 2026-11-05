@@ -286,7 +286,7 @@ class UsageStatsMonitorService : Service() {
 
         return NotificationCompat.Builder(
             this,
-            AndroidNotificationManagerWrapper.NOTIFICATION_CHANNEL_ID,
+            AndroidNotificationManagerWrapper.MONITOR_NOTIFICATION_CHANNEL_ID,
         ).apply {
             setSmallIcon(notificationManagerR.drawable.baseline_settings_24)
 
